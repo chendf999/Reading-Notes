@@ -1,9 +1,12 @@
 
 $(document).on('click', '.save', function(event) {
 	event.preventDefault();
-	var word = $(this).closest('.card').attr('data');
-	var sentence = $(this).closest('.card-body').find('.card-title').text();
+
+	var word = $(this).closest('.card-body').find('.card-title').text();
 	var meaning = $(this).closest('.card-body').find('.card-text').text();
+	var link = $(this).closest('.card').attr('data');
+	var route = word.replace(/[^\w\s]/gi, '').replace(/ /g, '-');
+	var image = $(this).closest('.card').find('img').attr('src');
 
 	$.ajax({
 		type: "POST",
@@ -11,8 +14,10 @@ $(document).on('click', '.save', function(event) {
 		url: "/saved",
 		data: {
 			word: word,
-			sentence: sentence,
-			meaning: meaning
+			meaning: meaning,
+			image: image,
+			route: route,
+			link: link
 		}
 	}).then(function(data) {
 		console.log(data);
