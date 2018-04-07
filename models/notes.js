@@ -8,7 +8,7 @@ var NoteSchema = new Schema({
 		type: String,
 		required: true
 	},
-	date: {
+	createAt: {
 		type: Date,
 		default: Date.now
 	}

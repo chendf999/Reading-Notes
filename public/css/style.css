@@ -13,7 +13,10 @@ header li { list-style-type: none; display: inline;}
 header a { padding: 10px; color: white;}
 header a:hover { color: #33b5e5;}
 
-#scrape { padding: 10px 20px; }
+#scrape {
+	padding: 10px 20px;
+    margin-left: 10px; margin-right: 0;
+}
 
 /* section -------------------------------*/
 
