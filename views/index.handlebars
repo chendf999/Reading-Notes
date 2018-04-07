@@ -3,15 +3,19 @@
 
 		<!-- word card -->
 		<div class="col-lg-3 col-md-6">
-			<div class="card" data="{{link}}">
+			<div class="card" data="{{route}}">
 				<div class="view">
 					<img src="{{image}}" class="img-fluid" />
 				</div>
 
 				<div class="card-body">
-					<h4 class="card-title">{{word}}</h4>
+					<h5 class="card-title">{{word}}</h5>
 					<p class="card-text">{{meaning}}</p>
-					<a href="/" class="save btn btn-primary">Save</a>
+					{{#if saved}}
+					<a href="#" class="unsave btn btn-blue-grey">Unsave</a>
+					{{else}}
+					<a href="#" class="save btn btn-info">Save</a>
+					{{/if}}
 				</div>
 			</div>
 		</div>

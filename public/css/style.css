@@ -1,3 +1,46 @@
 
-/* @media screen and (max-width: 979px;) {} */ 
-/* @media screen and (min-width: 980px;) {} */
+/* header -------------------------------*/
+
+header .navbar {
+	background: linear-gradient(to right, #1c2a48, #2e3951);
+	padding: 0;
+}
+header .brand { font-size: 28px;}
+
+header ul { margin: 0;}
+header li { list-style-type: none; display: inline;}
+
+header a { padding: 10px; color: white;}
+header a:hover { color: #33b5e5;}
+
+#scrape { padding: 10px 20px; }
+
+/* section -------------------------------*/
+
+section {
+	margin-top: 100px;
+	margin-bottom: 50px;
+}
+
+.btn {
+	padding: 10px 15px;
+	margin: 0; margin-right: 10px;
+}
+
+.delete:hover { opacity: .5;}
+
+/* footer -------------------------------*/
+
+footer {
+	background: linear-gradient(to right, #1c2a48, #2e3951);
+	overflow-y: hidden;
+}
+
+footer ul{
+	padding: 40px 0;
+	margin: 0;
+}
+
+footer a { margin: 0 10px; color: white;}
+footer a:hover { color: #33b5e5;}
+

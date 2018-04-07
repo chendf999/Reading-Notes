@@ -4,66 +4,92 @@ const request = require('request');
 const mongoose = require("mongoose");
 const db = require("./models");
 
-// mongoose.Promise = Promise;
 mongoose.connect("mongodb://localhost/wordbook");
 
 const routes = function(app){
 
-	// word list home page
+	// load all words from db
 	app.get('/', function(req, res) {
-		request('https://www.merriam-webster.com/news-trend-watch/see-all', function(error, response, html) {
-		  var $ = cheerio.load(html);
-		  var trendingWords = [];
-
-		  $('.archive-item').each(function(i, element) {
-			var word = $(element).find('h5 a').text();
-		    var meaning = $(element).find('p a').text();
-			var route = word.replace(/ /g, '-');
-
-			var image = $(element).find('img').attr('data-src').replace('//www', 'http://www').replace('@1x', '@2x');
-			var link = 'http://www.merriam-webster.com' + $(element).find('a').attr('href');
-
-		    trendingWords.push({
-				word: word,
-				meaning: meaning,
-				image: image,
-				route: route,
-				link: link
-			});
-		  });
-
-		  res.render('index', { trendingWords });
+		db.Words.find({}).then(function(trendingWords){
+			res.render('index', { trendingWords });
+		}).catch(function(err) {
+			console.log(err);
 		});
-
 	});
 
-	// saved to word list
-	app.post('/saved', function(req, res) {
-		// console.log(req.body);
-
+	// view saved
+	app.get('/notebook', function(req, res) {
 		db.Words.find({
-			route: req.body.route
-		}).then(function(res){
-			if (res[0] === undefined) {
-				db.Words.create(req.body)
-				.then(function(item) {
-					console.log(item.route + 'added');
-				})
-				.catch(function(err) {
-					console.log(err);
-				});
-			} else {
-				console.log('Existing item: ' + req.body.route);
-			}
+			saved: true
+		}).then(function (savedWords){
+			res.render('notebook', { savedWords });
+		}).catch(function(err) {
+			console.log(err);
 		});
-
 	});
 
-	app.get('/all', function(req, res) {
-		db.Words.find({}).then(function(data){
-			res.json(data);
+	// scrape and add to db
+	app.get('/api/scrape', function(req, res) {
+		request('https://www.merriam-webster.com/news-trend-watch/see-all', function(error, response, html) {
+			var $ = cheerio.load(html);
+			var trendingWords = [];
+
+			$('.archive-item').each(function(i, element) {
+
+				var newWord = {
+					word: $(element).find('h5 a').text(),
+					meaning: $(element).find('p a').text(),
+					image: $(element).find('img').attr('data-src').replace('//www', 'http://www').replace('@1x', '@2x'),
+					route: $(element).find('h5 a').text().replace(/[^\w\s]/gi, '').replace(/ /g, '-'),
+					link: 'http://www.merriam-webster.com' + $(element).find('a').attr('href'),
+					saved: false
+				}
+
+				db.Words.find({
+					route: newWord.route
+				}).then(function(res){
+					if (res[0] === undefined) {
+						trendingWords.push(newWord);
+
+						db.Words.create(newWord)
+						.then(function() {
+							console.log(newWord.route + ' added');
+						})
+						.catch(function(err) {
+							console.log(err);
+						});
+					}
+				});
+			});
+
+			res.json(trendingWords);
 		});
-		  // res.render('index', { trendingWords });
+	});
+
+	// add to notebook
+	app.post('/api/save', function(req, res){
+		db.Words.update({
+			route: req.body.route
+		}, {
+			$set: { saved: true }
+		}).then(function (item){
+			console.log(item);
+		}).catch(function(err) {
+			console.log(err);
+		});
+	});
+
+	// unsave
+	app.post('/api/unsave', function(req, res){
+		db.Words.update({
+			route: req.body.route
+		}, {
+			$set: { saved: false }
+		}).then(function (item){
+			console.log(item);
+		}).catch(function(err) {
+			console.log(err);
+		});
 	});
 
 }

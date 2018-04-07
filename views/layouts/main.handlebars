@@ -18,15 +18,39 @@
 </head>
 <body>
 	<header>
-		<h1>My Word Book</h1>
+		<nav class="navbar fixed-top navbar-expand-lg navbar-dark">
+			<div class="container d-flex align-items-center">
+				<a class="brand" href="/">Word Book</a>
+				<ul>
+					<li><a href="/">Home<span class="sr-only">(current)</span></a></li>
+					<li><a href="/all">Notebook</a></li>
+					<li class="btn btn-info" id="scrape">Scrape</li>
+				</ul>
+			</div>
+		</nav>
 	</header>
 
-	<section>
+	<section class="container">
 		<div class="row">
 			{{{ body }}}
 
 		</div>
 	</section>
+
+	{{>lightbox}}
+
+	<footer>
+		<div class="container d-flex justify-content-between align-items-center">
+			<ul>
+				<a href="http://chendf.com" target="_blank">© 2018 Daphne Chen</a>
+				<a href="https://github.com/dc220v/Reading-Notes" target="_blank">GitHub</a>
+			</ul>
+			<ul>
+				<a href="/">Word API</a>
+				<a href="/">Note API</a>
+			</ul>
+		</div>
+	</footer>
 
 	<!-- JQuery -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

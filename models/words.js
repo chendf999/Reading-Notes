@@ -25,6 +25,10 @@ var WordSchema = new Schema({
 		type: String,
 		required: true
 	},
+	saved: {
+		type: Boolean,
+		required: true
+	},
 	notes: {
 		type: Schema.Types.ObjectId,
 		ref: 'Notes'

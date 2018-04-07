@@ -1,25 +1,45 @@
 
+// scrape
+$('#scrape').on('click', function(){
+	$.ajax({
+		type: "GET",
+		dataType: "json",
+		url: "/api/scrape",
+	}).done( function(data) {
+		window.location.replace('/');
+	});
+});
+
+// save
 $(document).on('click', '.save', function(event) {
 	event.preventDefault();
-
-	var word = $(this).closest('.card-body').find('.card-title').text();
-	var meaning = $(this).closest('.card-body').find('.card-text').text();
-	var link = $(this).closest('.card').attr('data');
-	var route = word.replace(/[^\w\s]/gi, '').replace(/ /g, '-');
-	var image = $(this).closest('.card').find('img').attr('src');
+	var route = $(this).closest('.card').attr('data');
 
 	$.ajax({
 		type: "POST",
 		dataType: "json",
-		url: "/saved",
+		url: "/api/save",
 		data: {
-			word: word,
-			meaning: meaning,
-			image: image,
-			route: route,
-			link: link
+			route: route
 		}
 	}).then(function(data) {
-		console.log(data);
+		window.location.replace('/');
+	});
+});
+
+// unsave
+$(document).on('click', '.unsave', function(event) {
+	event.preventDefault();
+	var route = $(this).closest('.card').attr('data');
+
+	$.ajax({
+		type: "POST",
+		dataType: "json",
+		url: "/api/unsave",
+		data: {
+			route: route
+		}
+	}).then(function(data) {
+		window.location.replace('/');
 	});
 });

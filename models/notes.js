@@ -4,11 +4,14 @@ var Schema = mongoose.Schema;
 
 // create schema
 var NoteSchema = new Schema({
-	title: {
+	text: {
 		type: String,
 		required: true
 	},
-	body: String
+	date: {
+		type: Date,
+		default: Date.now
+	}
 });
 
 // create model and export
