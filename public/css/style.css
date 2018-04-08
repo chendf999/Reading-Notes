@@ -32,6 +32,9 @@ section {
 
 .delete:hover { opacity: .5;}
 
+.img-word { width: 100%;}
+.word-card { margin: 10px 0;}
+
 /* footer -------------------------------*/
 
 footer {

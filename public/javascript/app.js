@@ -35,8 +35,14 @@ function save_status(_id, status){
 
 // lightbox
 $(document).on('click', '.detail', function(){
-	var _id = $(this).closest('.card').attr('data');
+	// reset current form
+	$('#current-notes').empty();
 
+	var _id = $(this).closest('.card').attr('data');
+	print_notes(_id);
+});
+
+function print_notes(_id){
 	$.ajax({
 		type: "GET",
 		url: "/word/" + _id
@@ -45,26 +51,15 @@ $(document).on('click', '.detail', function(){
 		$('#current-word p').text(data.meaning);
 		$('#newNote').attr('data', _id);
 
-		data.notes.forEach(function(_id){
-			$.ajax({
-				type: "GET",
-				url: "/note/" + _id
-			}).then(function(note) {
-				var tr = `<tr><td>${note.createAt}</td>
-				<td>${note.text}</td>
-				<td class="text-right"><a href="#" class="delete" data="${note._id}">Delete</a></td>
-				</tr>`
-				$('#current-notes').append(tr);
-			});
+		data.notes.forEach(function(note){
+			var tr = `<tr><td>${note.createAt}</td>
+			<td>${note.text}</td>
+			<td class="text-right"><a href="#" class="delete" data="${note._id}">Delete</a></td>
+			</tr>`
+			$('#current-notes').append(tr);
 		});
-
 	});
-});
-
-// close lightbox
-$(document).on('click', '.close', function(){
-	$('#current-notes').empty();
-});
+}
 
 $(document).on('click', '.add', function(){
 	var text = $('#newNote').val();
@@ -79,14 +74,14 @@ $(document).on('click', '.add', function(){
 		}
 	}).then(function(){
 		$('#newNote').val('');
-		window.location.reload(true);
+		$('#current-notes').empty();
+		print_notes(_id);
 	});
 });
 
 $(document).on('click', '.delete', function(){
 	var _id = $(this).attr('data');
 	var tr = $(this).closest('tr');
-	console.log(_id);
 
 	$.ajax({
 		type: "POST",
@@ -95,7 +90,6 @@ $(document).on('click', '.delete', function(){
 			_id: _id
 		}
 	}).then(function(){
-		console.log('delete');
 		tr.remove();
 	});
 });

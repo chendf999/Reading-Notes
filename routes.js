@@ -80,7 +80,8 @@ const routes = function(app){
 	app.get('/word/:_id', function(req, res){
 		db.Words.findOne({
 			_id: req.params._id
-		}).then(function (data){
+		}).populate('notes')
+		.then(function (data){
 			res.json(data);
 		}).catch(function(err) {
 			res.json(err);
@@ -125,10 +126,6 @@ const routes = function(app){
 			_id: req.body._id
 		}).then(function(data) {
 			res.json(data);
-		});
-
-		db.Words.find({ saved: true }).populate('notes').then(function(data){
-			console.log(data);
 		});
 	});
 
