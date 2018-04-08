@@ -1,3 +1,7 @@
+{{#if savedWords}}
+
+<section class="wordbook container">
+	<div class="row d-flex align-items-stretch">
 
 {{#each savedWords}}
 
@@ -21,5 +25,18 @@
 
 {{/each}}
 
+</div>
+</section>
 
+{{else}}
+
+<section class="jumbotron row" style="background:none">
+	<div class="col-md-12">
+		<div class="text-center py-5 px-4 my-5">
+			<h4 class="card-title mb-3 mt-5 font-bold">Looks like you haven't saved any words.</h4>
+		</div>
+	</div>
+</section>
+
+{{/if}}
 

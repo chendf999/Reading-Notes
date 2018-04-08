@@ -40,7 +40,7 @@ const routes = function(app){
 
 						db.Words.create(newWord)
 						.then(function() {
-							console.log(newWord.word);
+							// console.log(newWord.word);
 						})
 						.catch(function(err) {
 							console.log(err);
@@ -57,7 +57,8 @@ const routes = function(app){
 	app.get('/notebook', function(req, res) {
 		db.Words.find({
 			saved: true
-		}).then(function (savedWords){
+		}).populate('note')
+		.then(function (savedWords){
 			res.render('notebook', { savedWords });
 		}).catch(function(err) {
 			res.json(err);

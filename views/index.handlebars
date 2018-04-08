@@ -1,3 +1,7 @@
+{{#if trendingWords}}
+
+<section class="wordbook container">
+	<div class="row d-flex align-items-stretch">
 
   {{#each trendingWords}}
 
@@ -22,3 +26,19 @@
 
   {{/each}}
 
+</div>
+</section>
+
+{{else}}
+
+<section class="jumbotron row">
+	<div class="col-md-12">
+		<div class="text-white text-center py-5 px-4 my-5">
+			<h1 class="card-title display-4 mb-3 mt-5 font-bold"><strong>Hello! I'm your note book!</strong></h1>
+			<h4 class="mx-5 mb-5">Word book helps you learn trending words in English. </h4>
+			<a class="scrape btn btn-outline-white px-5 py-3">Scrape Data!</a>
+		</div>
+	</div>
+</section>
+
+{{/if}}

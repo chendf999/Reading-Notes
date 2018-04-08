@@ -13,16 +13,24 @@ header li { list-style-type: none; display: inline;}
 header a { padding: 10px; color: white;}
 header a:hover { color: #33b5e5;}
 
-#scrape {
+.scrape {
 	padding: 10px 20px;
     margin-left: 10px; margin-right: 0;
 }
 
 /* section -------------------------------*/
 
-section {
+.wordbook {
 	margin-top: 100px;
 	margin-bottom: 50px;
+	min-height: calc(100vh - 252px);
+}
+
+.jumbotron {
+	background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);
+	background-size: cover;
+	margin-bottom: 0;
+	height: calc(100vh - 100px);
 }
 
 .btn {
@@ -42,10 +50,7 @@ footer {
 	overflow-y: hidden;
 }
 
-footer ul{
-	padding: 40px 0;
-	margin: 0;
-}
+footer .container { padding: 40px 0;}
 
 footer a { margin: 0 10px; color: white;}
 footer a:hover { color: #33b5e5;}

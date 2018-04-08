@@ -1,5 +1,5 @@
 // scrape data
-$('#scrape').on('click', function(){
+$('.scrape').on('click', function(){
 	$.ajax({
 		type: "GET",
 		url: "/scrape",
