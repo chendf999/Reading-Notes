@@ -53,6 +53,17 @@ const routes = function(app){
 		});
 	});
 
+	// view saved
+	app.get('/notebook', function(req, res) {
+		db.Words.find({
+			saved: true
+		}).then(function (savedWords){
+			res.render('notebook', { savedWords });
+		}).catch(function(err) {
+			res.json(err);
+		});
+	});
+
 	// save and unsave
 	app.post('/word/:_id', function(req, res){
 		db.Words.update({
@@ -76,17 +87,6 @@ const routes = function(app){
 		});
 	});
 
-	// view saved
-	app.get('/notebook', function(req, res) {
-		db.Words.find({
-			saved: true
-		}).then(function (savedWords){
-			res.render('notebook', { savedWords });
-		}).catch(function(err) {
-			res.json(err);
-		});
-	});
-
 	// add note
 	app.post('/add', function(req, res){
 
@@ -95,7 +95,7 @@ const routes = function(app){
 		})
 		.then(function(item) {
 			db.Words.update(
-				{ word: req.body.word
+				{ _id: req.body._id
 				}, { $push: { notes: item._id }
 				}, { new: true }
 			).catch(function(err) {
@@ -106,6 +106,30 @@ const routes = function(app){
 		});
 
 		res.end();
+	});
+
+	// show note
+	app.get('/note/:_id', function(req, res) {
+		db.Notes.findOne({
+			_id: req.params._id
+		}).then(function (note){
+			res.json(note);
+		}).catch(function(err) {
+			res.json(err);
+		});
+	});
+
+	// delete note
+	app.post('/delete', function(req, res) {
+		db.Notes.deleteOne({
+			_id: req.body._id
+		}).then(function(data) {
+			res.json(data);
+		});
+
+		db.Words.find({ saved: true }).populate('notes').then(function(data){
+			console.log(data);
+		});
 	});
 
 }

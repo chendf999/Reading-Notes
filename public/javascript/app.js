@@ -43,15 +43,21 @@ $(document).on('click', '.detail', function(){
 	}).then(function(data) {
 		$('#current-word h5').text(data.word);
 		$('#current-word p').text(data.meaning);
-		console.log(data.notes);
+		$('#newNote').attr('data', _id);
 
-		// data.notes.forEach(function(note){
-		// 	var tr = `<tr><td>${note.createAt}</td>
-		// 	<td>${note.text}</td>
-		// 	<td class="text-right"><a href="#" class="delete">Delete</a></td>
-		// 	</tr>`
-		// 	$('#current-notes').append(tr);
-		// });
+		data.notes.forEach(function(_id){
+			$.ajax({
+				type: "GET",
+				url: "/note/" + _id
+			}).then(function(note) {
+				var tr = `<tr><td>${note.createAt}</td>
+				<td>${note.text}</td>
+				<td class="text-right"><a href="#" class="delete" data="${note._id}">Delete</a></td>
+				</tr>`
+				$('#current-notes').append(tr);
+			});
+		});
+
 	});
 });
 
@@ -62,16 +68,34 @@ $(document).on('click', '.close', function(){
 
 $(document).on('click', '.add', function(){
 	var text = $('#newNote').val();
-	var word = $('#current-word h5').text();
+	var _id = $('#newNote').attr('data');
 
 	$.ajax({
 		type: "POST",
 		url: "/add",
 		data: {
-			word: word,
+			_id: _id,
 			text: text
 		}
 	}).then(function(){
 		$('#newNote').val('');
+		window.location.reload(true);
+	});
+});
+
+$(document).on('click', '.delete', function(){
+	var _id = $(this).attr('data');
+	var tr = $(this).closest('tr');
+	console.log(_id);
+
+	$.ajax({
+		type: "POST",
+		url: "/delete",
+		data: {
+			_id: _id
+		}
+	}).then(function(){
+		console.log('delete');
+		tr.remove();
 	});
 });
