@@ -5,11 +5,9 @@ const mongoose = require("mongoose");
 const db = require("./models");
 
 // mongoose.connect("mongodb://localhost/wordbook");
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/workbook";
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI, {
-  useMongoClient: true
-});
+mongoose.connect(MONGODB_URI);
 
 const routes = function(app){
 
