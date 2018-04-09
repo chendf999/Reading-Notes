@@ -5,7 +5,7 @@ const exphbs = require("express-handlebars");
 
 // express
 const app = express();
-const PORT = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -22,6 +22,6 @@ app.set("view engine", "handlebars");
 // require routes
 require("./routes.js")(app);
 
-app.listen(3000, function() {
-  console.log("App running on port 3000!");
+app.listen(port, function() {
+  console.log("App running on port: " + port);
 });
