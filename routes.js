@@ -4,7 +4,12 @@ const request = require('request');
 const mongoose = require("mongoose");
 const db = require("./models");
 
-mongoose.connect("mongodb://localhost/wordbook");
+// mongoose.connect("mongodb://localhost/wordbook");
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI, {
+  useMongoClient: true
+});
 
 const routes = function(app){
 
