@@ -6,4 +6,4 @@ Wordbook is a vocabulary learning app. It discovers trending words driven by new
 
 **Backend:** Express, MangoDB, Mongoose, Cheerio
 
-https://secret-shore-89508.herokuapp.com
+https://cdf-word-book.herokuapp.com/
